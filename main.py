@@ -64,7 +64,8 @@ while running:
         player_1.bullet.surfing_updating()
     if player_2.bullet is not None:
         player_2.bullet.surfing_updating()
-
+    if player_1.health <= 0 or player_2.health <= 0:
+        running = False
     # 3. Render screen (draw things)
     screen.fill(GREEN)
     # Draw things here
