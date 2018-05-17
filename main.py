@@ -1,7 +1,6 @@
 import pygame
 from player import Player
 from config import width, height
-from bullet import Bullet
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
@@ -12,7 +11,7 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 player_1 = Player(20, 20)
 player_2 = Player(780, 580)
-b = Bullet(400 + 300j, 1, 7)
+
 while running:
     # 1. Process input
     for event in pygame.event.get():
@@ -59,11 +58,12 @@ while running:
     # 2. Update game
     player_1.surfing_updating(player_2)
     player_2.surfing_updating(player_1)
-    b.surfing_updating()
-    if player_1.bullet is not None:
-        player_1.bullet.surfing_updating()
-    if player_2.bullet is not None:
-        player_2.bullet.surfing_updating()
+
+    for b in player_1.bullets:
+        b.surfing_updating()
+    for b in player_2.bullets:
+        b.surfing_updating()
+
     if player_1.health <= 0 or player_2.health <= 0:
         running = False
     # 3. Render screen (draw things)
@@ -71,10 +71,12 @@ while running:
     # Draw things here
     player_2.draw(screen)
     player_1.draw(screen)
-    if player_1.bullet is not None:
-        player_1.bullet.draw(screen)
-    if player_2.bullet is not None:
-        player_2.bullet.draw(screen)
+    for b in player_1.bullets:
+        b.draw(screen)
+    for b in player_2.bullets:
+        b.draw(screen)
+
+
     #b.draw(screen)
     pygame.display.update()
     # 4. Wait some time
