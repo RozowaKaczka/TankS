@@ -19,7 +19,7 @@ class Player:
         self.velocity = 0
         self.bullets = []
         self.health = 100
-
+        self.mines = []
     def draw(self, surfing_surface):
         c = self.pos + cmath.rect(self.radius / 2, radians(self.direction))
         d = self.pos + cmath.rect(1.5*self.radius, radians(self.direction))
@@ -73,6 +73,10 @@ class Player:
             if b.colides_with_other_player(other_player):
                 other_player.health -= 10
                 b = None
+        for m in self.mines:
+            if m.colides_with_other_player(other_player):
+                other_player.health -= 20
+                m = None
 
     def start_rotating_left(self):
         self.vel_rot = -3
@@ -83,7 +87,11 @@ class Player:
     def stop_rotating(self):
         self.vel_rot = 0
     def fire_bullet(self):
-        b = Bullet(self.pos,10, self.direction)
+        b = Bullet(self.pos, 10, self.direction)
         self.bullets.append(b)
+    def place_mine(self):
+        m = Bullet(self.pos, 0, self.direction)
+        self.mines.append(m)
+
 
 

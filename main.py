@@ -55,6 +55,11 @@ while running:
                 player_2.fire_bullet()
             if event.key == pygame.K_COMMA:
                 player_1.fire_bullet()
+            if event.key == pygame.K_j:
+                player_2.place_mine()
+            if event.key == pygame.K_b:
+                player_1.place_mine()
+
     # 2. Update game
     player_1.surfing_updating(player_2)
     player_2.surfing_updating(player_1)
@@ -63,6 +68,10 @@ while running:
         b.surfing_updating()
     for b in player_2.bullets:
         b.surfing_updating()
+    for m in player_1.mines:
+        m.surfing_updating()
+    for m in player_2.mines:
+        m.surfing_updating()
 
     if player_1.health <= 0 or player_2.health <= 0:
         running = False
@@ -75,8 +84,10 @@ while running:
         b.draw(screen)
     for b in player_2.bullets:
         b.draw(screen)
-
-
+    for m in player_1.mines:
+        m.draw(screen)
+    for m in player_2.mines:
+        m.draw(screen)
     #b.draw(screen)
     pygame.display.update()
     # 4. Wait some time
