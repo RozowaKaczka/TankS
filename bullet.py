@@ -33,4 +33,9 @@ class Bullet:
         else:
             return False
 
+    def is_outside_screen(self):
+        return self.pos.real > width - self.radius or \
+               self.pos.imag > height - self.radius or \
+               self.pos.real < 0 + self.radius or \
+               self.pos.imag < 0 + self.radius
 

@@ -1,7 +1,7 @@
 import pygame
 from math import radians
 import cmath
-from config import width, height, BLACK
+from config import width, height, BLACK, WHITE
 from bullet import Bullet
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -19,7 +19,7 @@ class Player:
         self.velocity = 0
         self.bullets = []
         self.health = 100
-        self.mines = []
+
     def draw(self, surfing_surface):
         c = self.pos + cmath.rect(self.radius / 2, radians(self.direction))
         d = self.pos + cmath.rect(1.5*self.radius, radians(self.direction))
@@ -33,7 +33,7 @@ class Player:
 
         health_bar_pos = self.pos + v
         pygame.draw.rect(surfing_surface, BLACK, (int(health_bar_pos.real), int(health_bar_pos.imag), 100, 20))
-        pygame.draw.rect(surfing_surface, RED, (int(health_bar_pos.real ), int(health_bar_pos.imag  ), self.health  , 20))
+        pygame.draw.rect(surfing_surface, WHITE, (int(health_bar_pos.real ), int(health_bar_pos.imag  ), self.health  , 20))
     def surfing_starting_moving(self):
         self.velocity = 7
 
@@ -69,20 +69,22 @@ class Player:
             self.pos = self.pos - cmath.rect(self.velocity, radians(self.direction))
         if self.colides_with_other_player(other_player):
             self.pos = self.pos - cmath.rect(self.velocity, radians(self.direction))
+        removed_bullets = []
         for b in self.bullets:
             if b.colides_with_other_player(other_player):
                 other_player.health -= 10
-                b = None
-        for m in self.mines:
-            if m.colides_with_other_player(other_player):
-                other_player.health -= 20
-                m = None
+                removed_bullets.append(b)
+            if b.is_outside_screen():
+                removed_bullets.append(b)
+
+        for a in removed_bullets:
+            self.bullets.remove(a)
 
     def start_rotating_left(self):
-        self.vel_rot = -3
+        self.vel_rot = -5
         #self.direction -= 10
     def start_rotating_right(self):
-        self.vel_rot = 3
+        self.vel_rot = 5
         #self.directiond += 10
     def stop_rotating(self):
         self.vel_rot = 0
@@ -90,8 +92,8 @@ class Player:
         b = Bullet(self.pos, 10, self.direction)
         self.bullets.append(b)
     def place_mine(self):
-        m = Bullet(self.pos, 0, self.direction)
-        self.mines.append(m)
+        b = Bullet(self.pos, 0, self.direction)
+        self.bullets.append(b)
 
 
 
