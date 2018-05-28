@@ -8,10 +8,8 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
 
-
-
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, col):
         self.pos = x + y * 1j
         self.direction = 45
         self.radius = 20
@@ -19,12 +17,13 @@ class Player:
         self.velocity = 0
         self.bullets = []
         self.health = 100
+        self.color = col
 
     def draw(self, surfing_surface):
         c = self.pos + cmath.rect(self.radius / 2, radians(self.direction))
         d = self.pos + cmath.rect(1.5*self.radius, radians(self.direction))
         pygame.draw.line(surfing_surface, BLACK, (int(c.real), int(c.imag)), (int(d.real),int(d.imag)), 3)
-        pygame.draw.circle(surfing_surface, BLUE, (int(self.pos.real), int(self.pos.imag)), self.radius)
+        pygame.draw.circle(surfing_surface, self.color, (int(self.pos.real), int(self.pos.imag)), self.radius)
 
         v = -50 - (self.radius + 40) * 1j
 
@@ -34,6 +33,7 @@ class Player:
         health_bar_pos = self.pos + v
         pygame.draw.rect(surfing_surface, BLACK, (int(health_bar_pos.real), int(health_bar_pos.imag), 100, 20))
         pygame.draw.rect(surfing_surface, WHITE, (int(health_bar_pos.real ), int(health_bar_pos.imag  ), self.health  , 20))
+
     def surfing_starting_moving(self):
         self.velocity = 7
 
