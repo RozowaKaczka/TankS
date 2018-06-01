@@ -1,8 +1,10 @@
 import pygame
 from player import Player
+import config
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+GREEN = (0, 225, 0)
 BLUE = (0, 0, 255)
+
 
 
 class GameState:
@@ -13,18 +15,19 @@ class GameState:
 
     def process_input(self):
 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                config.running = False
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_s:
-                    self.player_1.surfing_stoping_moving()
+                     self.player_1.surfing_stoping_moving()
                 if event.key == pygame.K_UP:
                     self.player_2.surfing_stoping_moving()
                 if event.key == pygame.K_w:
                     self.player_1.surfing_stoping_moving()
-                if event.key == pygame.K_RIGHT:
-                    self.player_1.surfing_stoping_moving()
+                if event.key == pygame.K_DOWN:
+                    self.player_2.surfing_stoping_moving()
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     self.player_2.stop_rotating()
                 if event.key == pygame.K_a or event.key == pygame.K_d:
@@ -65,7 +68,7 @@ class GameState:
             b.surfing_updating()
 
         if self.player_1.health <= 0 or self.player_2.health <= 0:
-            running = False
+            config.running = False
 
     def draw(self, screen):
         screen.fill(GREEN)
@@ -75,8 +78,6 @@ class GameState:
             b.draw(screen)
         for b in self.player_2.bullets:
             b.draw(screen)
-
-
 
 
 

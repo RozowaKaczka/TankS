@@ -1,17 +1,21 @@
 import pygame
 from config import width, height
-import gamestate
+from gamestate import GameState
+import config
+
+
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
-running = True
+
+config.running = True
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
-state = gamestate.GameState()
+state = GameState()
 
-while running:
+while config.running:
     # 1. Process input
     state.process_input()
 
